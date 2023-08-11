@@ -1,5 +1,5 @@
-const fs   = require('fs')
-const path = require('path')
+const fs   = require("fs")
+const path = require("path")
 
 function walk_folder(dir,obj={},i=0) {
 
@@ -7,14 +7,13 @@ function walk_folder(dir,obj={},i=0) {
 
 	list.forEach( file => {
 		
-		pathx = dir + '\\' + file
+		let pathx = dir + "\\" + file
 		
 		let stats = fs.statSync(pathx)
 
 		if ( stats.isFile() ) {
 
 			obj[file] = stats.size
-			
 			i++
 		
 		}else if (stats.isDirectory()){
@@ -24,9 +23,9 @@ function walk_folder(dir,obj={},i=0) {
 			obj[path.basename(pathx)] = {}
 
 			walk_folder(
-				pathx,
-				obj[path.basename(pathx)],
-				i
+			pathx,
+			obj[path.basename(pathx)],
+			i
 			)
 		}
 		
@@ -36,7 +35,7 @@ function walk_folder(dir,obj={},i=0) {
 
 }
 
-content = JSON.stringify( walk_folder("URL_FOLDER"), null, 2 )
+content = JSON.stringify( walk_folder("__dirname"), null, 2 )
 
 server(content,"plain")
 
@@ -46,13 +45,11 @@ function server(x,n) {
 	const PORT = 8080
 
 	http.createServer(function (req, res) {
-		
+
 		res.writeHead(200,{"content-type":`text/${n};charset=utf8`})
-
 		res.end(x)
-	  
+
 	}).listen(PORT)
-
+	
 	console.log(`Running at port ${PORT}`)
-
 }
